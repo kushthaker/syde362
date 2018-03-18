@@ -41,7 +41,7 @@ Wl_k = (Tl_k*Ll_k*Hl_k); % keyboard stand locking bar volume
 #### 2. x0 is our initial guess vector. 
 
 ```matlab
-x0 = [20, 2, 5, 0.5, 0.25, 1.5, 3, 0.3, 0.15];
+x0 = [20, 0.5, 5, 3.5, 1, 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 ```
 
 #### 3. A,b are matrices representing linear inequality constraints on x
