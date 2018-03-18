@@ -1,8 +1,35 @@
 function [c, ceq] = nlcon_keyboard_strength(x)
 
+	% keySet = {'rho', 'Rcb_l', 'Lcb_l', 'Lst_l', 'Tst_l', 'Hst_l', 'Lsp_l', 'Tsp_l', 'Hsp_l', 'Tl_l', 'Ll_l', 'Hl_l', 'Rcb_k', 'Lcb_k', 'Lst_k', 'Tst_k', 'Hst_k', 'Lsp_k', 'Tsp_k', 'Hsp_k', 'Tl_k', 'Ll_k', 'Hl_k'};
+
+	% rho = x(1);
+	% Rcb_l = x(2);
+	% Lcb_l = x(3);
+	% Lst_l = x(4);
+	% Tst_l = x(5);
+	% Hst_l = x(6);
+	% Lsp_l = x(7);
+	% Tsp_l = x(8);
+	% Hsp_l = x(9);
+	% Tl_l = x(10);
+	% Ll_l = x(11);
+	% Hl_l = x(12);
+	% Rcb_k = x(13);
+	% Lcb_k = x(14);
+	% Lst_k = x(15);
+	% Tst_k = x(16);
+	% Hst_k = x(17);
+	% Lsp_k = x(18);
+	% Tsp_k = x(19);
+	% Hsp_k = x(20);
+	% Tl_k = x(21);
+	% Ll_k = x(22);
+	% Hl_k = x(23);
+
+
 	% Material Properties
 
-	rho = 0;
+	rho = x(1);
 	Est = 0;
 	Ecb = 0;
 
@@ -15,27 +42,27 @@ function [c, ceq] = nlcon_keyboard_strength(x)
 
 	% Crossbar Bar Dimensions - Keyboard Stand
 
-	Rcb_k = 0;
-	Lcb_k = 0;
+	Rcb_k = x(13);
+	Lcb_k = x(14);
 
 	% Strut Dimensions - Keyboard Stand
 
-	Tst_k = 0;
-	Hst_k = 0;
-	Lst_k = 0;
+	Lst_k = x(15);
+	Tst_k = x(16);
+	Hst_k = x(17);
 
 	% Support Dimensions - Keyboard Stand
 
-	Tsp_k = 0;
-	Hsp_k = 0;
-	Lsp_k = 0;
+	Lsp_k = x(18);
+	Tsp_k = x(19);
+	Hsp_k = x(20);
 	dsp_k = 0;
 
 	% Locking Bar Dimensions - Keyboard Stand
 
-	Tl_k = 0;
-	Hl_k = 0;
-	Ll_k = 0;
+	Tl_k = x(21);
+	Ll_k = x(22);
+	Hl_k = x(23);
 	dl_k = 0;
 
 	% Input Params - Keyboard Stand
@@ -46,13 +73,13 @@ function [c, ceq] = nlcon_keyboard_strength(x)
 	W_kz = Wk + Fkz;
 	theta = 0;
 	k = 2; % factor of safety
-    
+
 	% Objective Function Params - Keyboard Stand
 
-    Wcb_k = (pi*Rcb_k^2*Lcb_k);
-    Wst_k = (Lst_k*Tst_k*Hst_k);
-    Wsp_k = (Lsp_k*Tsp_k*Hsp_k);
-    Wl_k = (Tl_k*Ll_k*Hl_k);
+	Wcb_k = (pi*Rcb_k^2*Lcb_k);
+	Wst_k = (Lst_k*Tst_k*Hst_k);
+	Wsp_k = (Lsp_k*Tsp_k*Hsp_k);
+	Wl_k = (Tl_k*Ll_k*Hl_k);
 
 
 	% External Reaction Forces - Keyboard Stand
