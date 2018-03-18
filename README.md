@@ -18,7 +18,9 @@ valueSet = [20, 2, 5, 0.5, 0.25, 1.5, 3, 0.3, 0.15]; % example dummy values
 #### 1. fun is the objective function.
 
 ```matlab
-objective = @(x) (8*Wcb_l) + (12*Wst_l) + (2*Wsp_l) + (4*Wl_l) + (6*Wcb_k) + (8*Wst_k) + (2*Wsp_k) + (4*Wl_l);
+% FORM: objective = @(x) rho*((8*Wcb_l) + (12*Wst_l) + (2*Wsp_l) + (4*Wl_l) + (6*Wcb_k) + (8*Wst_k) + (2*Wsp_k) + (4*Wl_l));
+
+objective = @(x) x(1)*((8*x(2)) + (12*x(3)) + (2*x(4)) + (4*x(5)) + (6*x(6)) + (8*x(7)) + (2*x(8)) + (4*x(9)));
 ```
 
 where:
@@ -26,15 +28,15 @@ where:
 ```matlab
 rho = 0; % material density
 
-Wcb_l = rho*(pi*Rcb_l^2*Lcb_l); % laptop stand crossbar mass
-Wst_l = rho*(Lst_l*Tst_l*Hst_l); % laptop stand strut mass
-Wsp_l = rho*(Lsp_l*Tsp_l*Hsp_l); % laptop stand support mass
-Wl_l = rho*(Tl_l*Ll_l*Hl_l); % laptop stand locking bar mass
+Wcb_l = (pi*Rcb_l^2*Lcb_l); % laptop stand crossbar volume
+Wst_l = (Lst_l*Tst_l*Hst_l); % laptop stand strut volume
+Wsp_l = (Lsp_l*Tsp_l*Hsp_l); % laptop stand support volume
+Wl_l = (Tl_l*Ll_l*Hl_l); % laptop stand locking bar volume
 
-Wcb_k = rho*(pi*Rcb_k^2*Lcb_k); % keyboard stand crossbar mass
-Wst_k = rho*(Lst_k*Tst_k*Hst_k); % keyboard stand strut mass
-Wsp_k = rho*(Lsp_k*Tsp_k*Hsp_k); % keyboard stand support mass
-Wl_k = rho*(Tl_k*Ll_k*Hl_k); % keyboard stand locking bar mass
+Wcb_k = (pi*Rcb_k^2*Lcb_k); % keyboard stand crossbar volume
+Wst_k = (Lst_k*Tst_k*Hst_k); % keyboard stand strut volume
+Wsp_k = (Lsp_k*Tsp_k*Hsp_k); % keyboard stand support volume
+Wl_k = (Tl_k*Ll_k*Hl_k); % keyboard stand locking bar volume
 ```
 #### 2. x0 is our initial guess vector. 
 
