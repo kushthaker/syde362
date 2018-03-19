@@ -1,5 +1,7 @@
 function [c, ceq] = nlcon_keyboard_strength(x)
 
+	% Reference
+
 	% keySet = {'rho', 'Rcb_l', 'Lcb_l', 'Lst_l', 'Tst_l', 'Hst_l', 'Lsp_l', 'Tsp_l', 'Hsp_l', 'Tl_l', 'Ll_l', 'Hl_l', 'Rcb_k', 'Lcb_k', 'Lst_k', 'Tst_k', 'Hst_k', 'Lsp_k', 'Tsp_k', 'Hsp_k', 'Tl_k', 'Ll_k', 'Hl_k'};
 
 	% rho = x(1);
@@ -27,12 +29,33 @@ function [c, ceq] = nlcon_keyboard_strength(x)
 	% Hl_k = x(23);
 
 
-	% Material Properties
+	% Objective Function Parameters
 
-	rho = x(1);
-	Est = 0;
-	Ecb = 0;
+	
+	% Material Physical Properties
 
+	rho = x(1); % Material Density
+	Est = 0; % Modulus Elasticity Strut
+	Ecb = 0; % Modulus Elasticity Crossbar
+
+	% Crossbar Bar Dimensions - Keyboard Stand
+
+	Rcb_k = x(13);
+	Lcb_k = x(14);
+
+	% Strut Dimensions - Keyboard Stand
+
+	Lst_k = x(15);
+	Tst_k = x(16);
+	Hst_k = x(17);
+
+	% Support Dimensions - Keyboard Stand
+
+	Lsp_k = x(18);
+	Tsp_k = x(19);
+	Hsp_k = x(20);
+	dsp_k = 0;
+s
 	% Bearing and Pin Dimensions
 
 	r_b = 0;
@@ -76,10 +99,10 @@ function [c, ceq] = nlcon_keyboard_strength(x)
 
 	% Objective Function Params - Keyboard Stand
 
-	Wcb_k = (pi*Rcb_k^2*Lcb_k);
-	Wst_k = (Lst_k*Tst_k*Hst_k);
-	Wsp_k = (Lsp_k*Tsp_k*Hsp_k);
-	Wl_k = (Tl_k*Ll_k*Hl_k);
+	Wcb_k = rho*(pi*Rcb_k^2*Lcb_k);
+	Wst_k = rho*(Lst_k*Tst_k*Hst_k);
+	Wsp_k = rho*(Lsp_k*Tsp_k*Hsp_k);
+	Wl_k = rho*(Tl_k*Ll_k*Hl_k);
 
 
 	% External Reaction Forces - Keyboard Stand

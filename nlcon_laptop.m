@@ -67,10 +67,10 @@ function [c, ceq] = nlcon_laptop_strength(x)
 
 	% Objective Function Params - Laptop Stand
 
-	Wcb_l = (pi*Rcb_l^2*Lcb_l);
-    Wst_l = (Lst_l*Tst_l*Hst_l);
-    Wsp_l = (Lsp_l*Tsp_l*Hsp_l);
-    Wl_l = (Tl_l*Ll_l*Hl_l);
+	Wcb_l = rho*(pi*Rcb_l^2*Lcb_l);
+    Wst_l = rho*(Lst_l*Tst_l*Hst_l);
+    Wsp_l = rho*(Lsp_l*Tsp_l*Hsp_l);
+    Wl_l = rho*(Tl_l*Ll_l*Hl_l);
 
 
 
