@@ -73,6 +73,52 @@ function [c, ceq] = nlcon_laptop_strength(x)
     Wl_l = rho*(Tl_l*Ll_l*Hl_l);
 
 
+    Ist = (Wst_k^3 * Tst_k) / 12;
+	Icb = (pi * Rcb_k^4) / 4;
+
+    dmax = 0;
+    dmax_cb = 0;
+    Fna = 0;
+    theta = 0;
+    g = 9.81;
+
+    dmax = (dl_l*(3*(Lcb_k)^3 - 4*(dl_l)^2)*sqrt(8^2 + 8^2)) / 24*Ecb*Icb < 1*e - 3
+
+    Wl_l*0.25 - Wcb_l + 2*(3*Wst_l+Wcb_l)*(1 - 1/(Lst_l*cos(theta)))
+
+    % deflection on top bar - laptop stand
+
+    dmax_cb = g*Wcb_l*dl_l*(3*Lcb_l^2 - 4*dl_l^2) / (4*Ecb*Wl_l*Lcb_l^2) < 1*e - 3
+
+    % beam deflection on strut
+
+    g*Wst_l*(cos(theta) + sin(theta))*Lst_l / (4*Est*Tst_l*Hst_l^3) < 5*e - 3
+
+    % shear force on s pin
+
+    Sz = Wst_l/2 - Wcb_l - Wst_l + dsp_l*Wst_l/(2*Lst_l)
+    Pz = Wst_l/2
+    Sx = 1*(Sz - Pz)/(tan(theta))
+
+    tau_st_l = sqrt(Sx^2 + Sz^2) / (pi*Rcb_l) < sigma_l / 2
+
+    % Shear force on pin V in lockbar
+
+    Gz = Fna + Wcb_l/2
+    Gx = -Sx
+    Uz = Gz - Wl_l
+    Ux = Gx
+
+    tau_l_l = sqrt(Uz^2 + Ux^2) / pi*r_l^2 < sigma_l / k
+
+
+
+
+
+
+
+
+
 
 
 
