@@ -1,5 +1,7 @@
 function [c, ceq] = nlcon_keyboard(x)
 
+	% Reference
+
 	% keySet = {'rho', 'Rcb_l', 'Lcb_l', 'Lst_l', 'Tst_l', 'Hst_l', 'Lsp_l', 'Tsp_l', 'Hsp_l', 'Tl_l', 'Ll_l', 'Hl_l', 'Rcb_k', 'Lcb_k', 'Lst_k', 'Tst_k', 'Hst_k', 'Lsp_k', 'Tsp_k', 'Hsp_k', 'Tl_k', 'Ll_k', 'Hl_k'};
 
 	% rho = x(1);
@@ -61,6 +63,24 @@ function [c, ceq] = nlcon_keyboard(x)
 	Hsp_k = x(20);
 	dsp_k = 0;
 
+	% Crossbar Bar Dimensions - Keyboard Stand
+
+	Rcb_k = x(13);
+	Lcb_k = x(14);
+
+	% Strut Dimensions - Keyboard Stand
+
+	Lst_k = x(15);
+	Tst_k = x(16);
+	Hst_k = x(17);
+
+	% Support Dimensions - Keyboard Stand
+
+	Lsp_k = x(18);
+	Tsp_k = x(19);
+	Hsp_k = x(20);
+	dsp_k = 0;
+
 	% Locking Bar Dimensions - Keyboard Stand
 
 	Tl_k = x(21);
@@ -87,6 +107,7 @@ function [c, ceq] = nlcon_keyboard(x)
 	Wcb_k = (pi* Rcb_k^2 * Lcb_k) * rho;
 	Wst_k = (Lst_k * Tst_k * Hst_k) * rho;
 	Wl_k = (Tl_k * Ll_k * Hl_k) * rho;
+	Wsp_k = rho*(Lsp_k*Tsp_k*Hsp_k);
 
 	% External Reaction Forces - Keyboard Stand
 
