@@ -86,7 +86,7 @@ function [c, ceq] = nlcon_keyboard(x)
 	Tl_k = x(21);
 	Ll_k = x(22);
 	Hl_k = x(23);
-	dl_k = 0;
+	dl_k = (Lcb_k / 2) - Tst_k;
 
 	% Input Params - Keyboard Stand
 
@@ -104,10 +104,11 @@ function [c, ceq] = nlcon_keyboard(x)
 
 	% Objective Function Params - Keyboard Stand
 
-	Wcb_k = (pi* Rcb_k^2 * Lcb_k) * rho;
-	Wst_k = (Lst_k * Tst_k * Hst_k) * rho;
-	Wl_k = (Tl_k * Ll_k * Hl_k) * rho;
-	Wsp_k = rho*(Lsp_k*Tsp_k*Hsp_k);
+    g = 9.81;
+	Wcb_k = (pi * Rcb_k^2 * Lcb_k) * rho * g;
+	Wst_k = (Lst_k * Tst_k * Hst_k) * rho * g;
+	Wl_k = (Tl_k * Ll_k * Hl_k) * rho * g;
+	Wsp_k = (Lsp_k * Tsp_k * Hsp_k) * rho * g;
 
 	% External Reaction Forces - Keyboard Stand
 
@@ -117,9 +118,12 @@ function [c, ceq] = nlcon_keyboard(x)
 
 	% Top Crossbar Reaction Forces - Keyboard Stand
 
-	Rcb_az_k = W_kz * (Lsp_k / (Lst_k * cos(theta)));
-	Rcb_bz_k = W_kz * (1 - (Lsp_k / (Lst_k * cos(theta))));
+	Rcb_az_k = W_kz * (Lsp_k / (2 * Lst_k * cos(theta)));
+	Rcb_bz_k = W_kz * (1 - (Lsp_k / (2 * Lst_k * cos(theta))));
 	Rcb_bx_k = -Fkx;
+    
+    Acb_b_k = Tsp_k * (2 * Rcb_k);
+    c(7) = (sqrt(Rcb_bx_k^2 + Rcb_bz_k^2) / Acb_b_k) - (sigma_b / K);
 
 	% Top Crossbar Bending Deflection - Keyboard Stand
 
@@ -170,6 +174,8 @@ function [c, ceq] = nlcon_keyboard(x)
 	Qx = Ax;
 
 	Qz = Az - (0.5 * Wcb_k);
+    
+    c(8) = (sqrt(Qx^2 + Qz^2) / (2 * Rcb_k * Tl_k)) - (sigma_b / K);
 
 	% Locking Pin Shear Failure - Keyboard Stand
 
@@ -178,6 +184,8 @@ function [c, ceq] = nlcon_keyboard(x)
 	sigma_u = sqrt(Ux^2 + Uz^2) / (pi * r_l^2); 
     c(5) = sigma_u - (sigma_l / k);
 
+    c(9) = (sqrt(Ux^2 + Uz^2) / (2 * Rl_k * Tl_k)) - (sigma_l / K);
+    
 	% Bottom Crossbar Bending Deflection - Keyboard Stand
 
 	Uaf_z = ((Wcb_k * Lcb_k^3) + (2 * Qz * ((Lcb_k/2) - dl_k) * ((3*Lcb_k^2) - (4*((Lcb_k/2) - dl_k)^2)))) / (48*Ecb*Icb);
