@@ -50,37 +50,28 @@ function [c, ceq] = nlcon_laptop(x)
     Wst_l = rho * (Lst_l * Tst_l * Hst_l) * g;
     Wsp_l = rho * (Lsp_l * Tsp_l * Hsp_l) * g;
     Wl_l = rho * (Tl_l * Ll_l * Hl_l) * g;
-    Fkz = 24.45 + Wsp_l;
+    Flz = 24.45 + Wsp_l;
 
 	Icb = (pi * Rcb_l^4) / 4;
     
-    % Will this satisfy the overall sum of z forces?
-    Fna = Fkz*0.25 - Wcb_l + 2*(3*Wst_l+Wl_l)*(1 - 1/(Lst_l*cos(theta)));
-
-    % Some concerns here - units don't seem to match up, what are x and z?
-    % Also, why aren't there any force components?
-    dmax = (dl_l * (3*(Lcb_k)^3 - 4*(dl_l)^2) * sqrt((8 * x^2) + (8 * z^2))) / (24*Ecb*Icb);
+    Fna = (Flz / 4) + (2 * Wcb_l) + (3*Wst_l) + Wl_l;
     
-    c(1) = dmax - 0.001;
-
-    % deflection on top bar - why the g term? may be confusion over whether
-    % Wcb is a weight or a mass
-    dmax_cb = g*Fkz*dl_l*(3*Lcb_l^2 - 4*dl_l^2) / (4*Ecb*Wl_l*Lcb_l^2);
-    c(2) = dmax_cb - 0.001;
+    dmax_cb = Flz*dl_l*(3*Lcb_l^2 - 4*dl_l^2) / (48 * Ecb * (pi * Rcb_l^4 / 4));
+    c(2) = dmax_cb - (0.001 / K);
 
     % beam deflection on strut - again, why the g? it doesn't seem to be
     % present in Brian's notes here
-    dmax_st = g*Fkz*(cos(theta) + sin(theta)) * (Lst_l^3) / (4*Est*Tst_l*Hst_l^3);
-    c(3) = dmax_st - 0.003;
+    dmax_st = Flz*(cos(theta) + sin(theta)) * (Lst_l^3) / (48 * Est * (Tst_l * Hst_l^3 / 12));
+    c(3) = dmax_st - (0.003 / K);
 
     % shear force on s pin
 
-    Sz = (Fkz/2) - Wcb_l - Wst_l + (dsp_l * Fkz / (2*Lst_l));
-    Pz = Fkz/2;
+    Sz = (Flz/2) - Wcb_l - Wst_l + (dsp_l * Flz / (2*Lst_l));
+    Pz = Flz/2;
     Sx = (Sz/(tan(theta))) - Pz;
 
-    tau_st_l = sqrt(Sx^2 + Sz^2) / (pi*Rcb_l);
-    c(4) = tau_st_l - (sigma_l / 2);
+    tau_st_l = sqrt(Sx^2 + Sz^2) / (pi*Rcb_l^2);
+    c(4) = tau_st_l - (sigma_l / K);
 
     % Shear force on pin V in lockbar
 
@@ -89,5 +80,8 @@ function [c, ceq] = nlcon_laptop(x)
     Uz = Gz - Wl_l;
     Ux = Gx;
 
-    tau_l_l = sqrt(Uz^2 + Ux^2) / pi*r_l^2;
-    c(5) = tau_l_l - (sigma_l / k);
+    tau_l_l = sqrt(Uz^2 + Ux^2) / (pi*r_l^2);
+    c(5) = tau_l_l - (sigma_l / K);
+    
+    dmax = (dl_l * (3*(Lcb_l)^2 - 4*(dl_l)^2) * sqrt((Gx^2) + (Gz^2))) / (24*Ecb*Icb);
+    c(1) = dmax - (0.001 / K);
